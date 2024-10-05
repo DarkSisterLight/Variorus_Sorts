@@ -1,40 +1,67 @@
 ﻿#include <iostream>
+#include <stdio.h>
 using namespace std;
-
-void print(string words);
 
 int main(){
 setlocale(LC_ALL, "RU");
 
+	short x;
+	bool sort_or_not = true;
+	int right = 5, left = 1;
+
 	int array[6];
-	print("Заполни массив:");
+	puts("Заполни массив:");
 	for (int i = 0; i < 6; i++) {
 		cout << "[" << i + 1 << "]" << ": ";
 		cin >> array[i];
 	}
 
-	for (int i = 0; i < 6; i++) {
-		for (int j = 0; j < 5; j++) {
-			if (array[j] > array[j + 1]) {
-				int b = array[j];
-				array[j] = array[j + 1];
-				array[j + 1] = b;
+	
+	puts("Выбери сортировку: ");
+	cin >> x;
 
+	switch (x) {
+	case 1:
+		puts("Выбрана Bubble Sort");
+		for (int i = 0; i < 6; i++) {
+			for (int j = 0; j < 5; j++) {
+				if (array[j] > array[j + 1]) {
+					swap(array[j], array[j + 1]);
+				}
 			}
-		
 		}
+		break;
+	case 2:
+		puts("Выбрана Sheyker Sort");
+		do {
+			sort_or_not = true;
+			for (int i = left; i <= right; i++) {
+				if (array[i - 1] > array[i]) {
+					swap(array[i - 1], array[i]);
+					sort_or_not = false;
+				}
+			}
+			right--;
+			for (int i = right; i >= left; i--) {
+				if (array[i] < array[i - 1]) {
+					swap(array[i], array[i - 1]);
+					sort_or_not = false;
+				}
+			}
+			left++;
+		} while (sort_or_not == false);
+		break;
+	case 3:
+		break;
+	default:
+		puts("У меня такой сортировки нет.");
+		break;
 	}
 
-	print("Отсортированный массив: ");
-	for (int i = 0; i < 6; ++i) {
+	for (int i = 0; i < 6; i++) {
 		cout << array[i] << " ";
 	}
-
 	cout << endl;
+
 	return 0;
 }
-
-void print(string words) {
-	cout << words << endl;
-}
-
