@@ -7,7 +7,7 @@ setlocale(LC_ALL, "RU");
 
 	short x;
 	bool sort_or_not = true;
-	int right = 5, left = 1;
+	int right = 5, left = 1, min_elem;
 
 	int array[6];
 	puts("Заполни массив:");
@@ -16,7 +16,6 @@ setlocale(LC_ALL, "RU");
 		cin >> array[i];
 	}
 
-	
 	puts("Выбери сортировку: ");
 	cin >> x;
 
@@ -52,6 +51,17 @@ setlocale(LC_ALL, "RU");
 		} while (sort_or_not == false);
 		break;
 	case 3:
+		puts("Выбрана Selection Sort");
+		for (int i = 0; i < 6; i++) {
+			min_elem = i;
+			for (int j = i + 1; j < 6; j++) {
+				if (array[j] < array[min_elem]) {
+					min_elem = j;
+				}
+
+			}
+			swap(array[i], array[min_elem]);
+		}
 		break;
 	default:
 		puts("У меня такой сортировки нет.");
