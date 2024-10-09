@@ -61,13 +61,13 @@ int* quick_sort(int* src) {
 }
 
 void swap(int* array, int i, int j) {
-	int t = array[j];
-	array[j] = array[j + 1];
-	array[j + 1] = t;
+	int t = array[i];
+	array[i] = array[j];
+	array[j] = t;
 }
 
 /**
-    Сортировка слиянием.
+    Шейкерная сортировка.
 
     \param[out] dest отсортированный массив
     \param[in] array исходный массив
@@ -76,14 +76,14 @@ void swap(int* array, int i, int j) {
 int* shaker_sort(int* array, int size) {
 	int sort_or_not = 1;
 	int right = size, left = 1;
-	int swap_count = 0;
+	int swap_count = false;
 	do {
-		sort_or_not = 1;
+		sort_or_not = true;
 		for (int i = left; i <= right; i++) {
 			if (array[i - 1] > array[i]) {
 				swap(array, i - 1, i);
 				swap_count++;
-				sort_or_not = 0;
+				sort_or_not = false;
 			}
 		}
 		right--;
