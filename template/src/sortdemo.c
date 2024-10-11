@@ -5,6 +5,7 @@
 #include <time.h>
 
 #include "bubble_sort.h"
+#include "quick_sort.h"
 #include "utils.h"
 
 /**
@@ -27,59 +28,6 @@ int* insert_sort(int* src) {
 */
 int* merge_sort(int* src) {
     return 0;
-}
-
-int partition(int arr[], int low, int high) {
-    // Initialize pivot to be the first element
-    int p = arr[low];
-    int i = low;
-    int j = high;
-
-    while (i < j) {
-
-        // Find the first element greater than
-        // the pivot (from starting)
-        while (arr[i] <= p && i <= high - 1) {
-            i++;
-        }
-
-        // Find the first element smaller than
-        // the pivot (from last)
-        while (arr[j] > p && j >= low + 1) {
-            j--;
-        }
-        if (i < j) {
-            swap(arr, i, j);
-
-        }
-    }
-    swap(arr, i, j);
-    return j;
-}
-
-void quickSort(int arr[], int low, int high) {
-    if (low < high) {
-
-        // call partition function to find Partition Index
-        int pi = partition(arr, low, high);
-
-        // Recursively call quickSort() for left and right
-        // half based on Partition Index
-        quickSort(arr, low, pi - 1);
-        quickSort(arr, pi + 1, high);
-    }
-}
-
-/**
-    Быстрая сортировка.
-
-    \param[out] dest отсортированный массив
-    \param[in] array исходный массив
-    \param[in] size размер массива
-*/
-int* quick_sort(int* src, int size) {
-	quickSort(src, 0, size - 1);
-    return src;
 }
 
 /**
@@ -132,8 +80,9 @@ int main(void) {
 
 	printf("Исходный массив: ");
 	print_array(src, array_size);
+	puts("--------------------------------------------");
 
-	printf("Сортировка пузырьком: \n");
+	printf("--= Сортировка пузырьком =--\n");
 	int src1[array_size];
 	memcpy(src1, src, array_size * sizeof(int));
 	bubble_sort(src1, array_size);
@@ -143,7 +92,7 @@ int main(void) {
 
 	puts("--------------------------------------------");
 
-	printf("Шейкерная сортировка: \n");
+	printf("--= Шейкерная сортировка =--\n");
 	int src2[array_size];
 	memcpy(src2, src, array_size * sizeof(int));
 	shaker_sort(src2, array_size);
@@ -153,7 +102,7 @@ int main(void) {
 
 	puts("--------------------------------------------");
 
-	printf("Быстрая сортировка: \n");
+	printf("--= Быстрая сортировка =--\n");
 	int src3[array_size];
 	memcpy(src3, src, array_size * sizeof(int));
 	quick_sort(src3, array_size);

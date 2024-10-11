@@ -1,6 +1,7 @@
 #include <stdio.h>
 
 #include "bubble_sort.h"
+#include "utils.h"
 
 /**
     Сортировка пузырьком.
@@ -14,9 +15,7 @@ int* bubble_sort(int* array, int size) {
 	for (int i = 0; i < size; i++) {
 		for (int j = 0; j < size; j++) {
 			if (array[j] > array[j + 1]) {
-				int t = array[j];
-				array[j] = array[j + 1];
-				array[j + 1] = t;
+				swap2(&array[i], &array[j]);
 				swap_count++;
 			}
 		}

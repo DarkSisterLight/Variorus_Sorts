@@ -10,6 +10,12 @@ void swap(int* array, int i, int j) {
 	array[j] = t;
 }
 
+void swap2(int* i, int* j) {
+	int t = *i;
+	*i = *j;
+	*j = t;
+}
+
 int* random_array(int* array, int size, int num) {
 	for (int i = 0; i < size; i++) {
 		array[i] = rand() % num;
