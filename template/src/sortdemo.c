@@ -4,28 +4,8 @@
 #include <string.h>
 #include <time.h>
 
-/**
-    Сортировка пузырьком.
-
-    \param[out] dest отсортированный массив
-    \param[in] array исходный массив
-    \param[in] size размер массива
-*/
-int* bubble_sort(int* array, int size) {
-	int swap_count = 0;
-	for (int i = 0; i < size; i++) {
-		for (int j = 0; j < size; j++) {
-			if (array[j] > array[j + 1]) {
-				int t = array[j];
-				array[j] = array[j + 1];
-				array[j + 1] = t;
-				swap_count++;
-			}
-		}
-	}
-	printf("Количество перестановок: %d\n", swap_count);
-	return array;
-}
+#include "bubble_sort.h"
+#include "utils.h"
 
 /**
     Сортировка вставками.
@@ -49,6 +29,47 @@ int* merge_sort(int* src) {
     return 0;
 }
 
+int partition(int arr[], int low, int high) {
+    // Initialize pivot to be the first element
+    int p = arr[low];
+    int i = low;
+    int j = high;
+
+    while (i < j) {
+
+        // Find the first element greater than
+        // the pivot (from starting)
+        while (arr[i] <= p && i <= high - 1) {
+            i++;
+        }
+
+        // Find the first element smaller than
+        // the pivot (from last)
+        while (arr[j] > p && j >= low + 1) {
+            j--;
+        }
+        if (i < j) {
+            swap(arr, i, j);
+
+        }
+    }
+    swap(arr, i, j);
+    return j;
+}
+
+void quickSort(int arr[], int low, int high) {
+    if (low < high) {
+
+        // call partition function to find Partition Index
+        int pi = partition(arr, low, high);
+
+        // Recursively call quickSort() for left and right
+        // half based on Partition Index
+        quickSort(arr, low, pi - 1);
+        quickSort(arr, pi + 1, high);
+    }
+}
+
 /**
     Быстрая сортировка.
 
@@ -56,14 +77,9 @@ int* merge_sort(int* src) {
     \param[in] array исходный массив
     \param[in] size размер массива
 */
-int* quick_sort(int* src) {
-    return 0;
-}
-
-void swap(int* array, int i, int j) {
-	int t = array[i];
-	array[i] = array[j];
-	array[j] = t;
+int* quick_sort(int* src, int size) {
+	quickSort(src, 0, size - 1);
+    return src;
 }
 
 /**
@@ -102,26 +118,9 @@ int* shaker_sort(int* array, int size) {
 	return array;
 }
 
-int* random_array(int* array, int size, int num) {
-	for (int i = 0; i < size; i++) {
-		array[i] = rand() % num;
-	}
-	return array;
-}
-
-void print_array(int* array, int size) {
-	printf("[");
-	for (int i = 0; i < size; i++) {
-		printf("%d", array[i]);
-		if (i < size - 1) {
-			printf(",");
-		}
-	}
-	printf("]\n");
-}
-
 int main(void) {
 	puts("Программа демонстрации алгоритмов сортировки");
+	puts("--------------------------------------------");
 
 	srand(time(NULL));
 
@@ -142,6 +141,8 @@ int main(void) {
 	printf("Отсортированный массив: ");
 	print_array(src1, array_size);
 
+	puts("--------------------------------------------");
+
 	printf("Шейкерная сортировка: \n");
 	int src2[array_size];
 	memcpy(src2, src, array_size * sizeof(int));
@@ -149,6 +150,16 @@ int main(void) {
 
 	printf("Отсортированный массив: ");
 	print_array(src2, array_size);
+
+	puts("--------------------------------------------");
+
+	printf("Быстрая сортировка: \n");
+	int src3[array_size];
+	memcpy(src3, src, array_size * sizeof(int));
+	quick_sort(src3, array_size);
+
+	printf("Отсортированный массив: ");
+	print_array(src3, array_size);
 
 	printf("Статистика:\n");
 	printf("...\n");
