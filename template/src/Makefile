@@ -100,7 +100,7 @@ CONFIG_CLEAN_VPATH_FILES =
 am__installdirs = "$(DESTDIR)$(bindir)"
 PROGRAMS = $(bin_PROGRAMS)
 am_sortdemo_OBJECTS = bubble_sort.$(OBJEXT) sortdemo.$(OBJEXT) \
-	utils.$(OBJEXT) quick_sort.$(OBJEXT)
+	utils.$(OBJEXT) quick_sort.$(OBJEXT) shaker_sort.$(OBJEXT)
 sortdemo_OBJECTS = $(am_sortdemo_OBJECTS)
 sortdemo_LDADD = $(LDADD)
 AM_V_P = $(am__v_P_$(V))
@@ -119,8 +119,8 @@ DEFAULT_INCLUDES = -I. -I$(top_builddir)
 depcomp = $(SHELL) $(top_srcdir)/depcomp
 am__maybe_remake_depfiles = depfiles
 am__depfiles_remade = ./$(DEPDIR)/bubble_sort.Po \
-	./$(DEPDIR)/quick_sort.Po ./$(DEPDIR)/sortdemo.Po \
-	./$(DEPDIR)/utils.Po
+	./$(DEPDIR)/quick_sort.Po ./$(DEPDIR)/shaker_sort.Po \
+	./$(DEPDIR)/sortdemo.Po ./$(DEPDIR)/utils.Po
 am__mv = mv -f
 COMPILE = $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
 	$(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
@@ -248,7 +248,7 @@ target_alias =
 top_build_prefix = ../
 top_builddir = ..
 top_srcdir = ..
-sortdemo_SOURCES = bubble_sort.c sortdemo.c utils.c quick_sort.c
+sortdemo_SOURCES = bubble_sort.c sortdemo.c utils.c quick_sort.c shaker_sort.c
 all: all-am
 
 .SUFFIXES:
@@ -337,6 +337,7 @@ distclean-compile:
 
 include ./$(DEPDIR)/bubble_sort.Po # am--include-marker
 include ./$(DEPDIR)/quick_sort.Po # am--include-marker
+include ./$(DEPDIR)/shaker_sort.Po # am--include-marker
 include ./$(DEPDIR)/sortdemo.Po # am--include-marker
 include ./$(DEPDIR)/utils.Po # am--include-marker
 
@@ -488,6 +489,7 @@ clean-am: clean-binPROGRAMS clean-generic mostlyclean-am
 distclean: distclean-am
 		-rm -f ./$(DEPDIR)/bubble_sort.Po
 	-rm -f ./$(DEPDIR)/quick_sort.Po
+	-rm -f ./$(DEPDIR)/shaker_sort.Po
 	-rm -f ./$(DEPDIR)/sortdemo.Po
 	-rm -f ./$(DEPDIR)/utils.Po
 	-rm -f Makefile
@@ -537,6 +539,7 @@ installcheck-am:
 maintainer-clean: maintainer-clean-am
 		-rm -f ./$(DEPDIR)/bubble_sort.Po
 	-rm -f ./$(DEPDIR)/quick_sort.Po
+	-rm -f ./$(DEPDIR)/shaker_sort.Po
 	-rm -f ./$(DEPDIR)/sortdemo.Po
 	-rm -f ./$(DEPDIR)/utils.Po
 	-rm -f Makefile

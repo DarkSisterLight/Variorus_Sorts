@@ -1,4 +1,3 @@
-#include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -6,6 +5,7 @@
 
 #include "bubble_sort.h"
 #include "quick_sort.h"
+#include "shaker_sort.h"
 #include "utils.h"
 
 /**
@@ -15,7 +15,7 @@
     \param[in] array исходный массив
     \param[in] size размер массива
 */
-int* insert_sort(int* src) {
+int* insert_sort(int* src, int size) {
     return 0;
 }
 
@@ -26,47 +26,23 @@ int* insert_sort(int* src) {
     \param[in] array исходный массив
     \param[in] size размер массива
 */
-int* merge_sort(int* src) {
+int* merge_sort(int *src, int size) {
     return 0;
 }
 
-/**
-    Шейкерная сортировка.
-
-    \param[out] dest отсортированный массив
-    \param[in] array исходный массив
-    \param[in] size размер массива
-*/
-int* shaker_sort(int* array, int size) {
-	int sort_or_not = 1;
-	int right = size, left = 1;
-	int swap_count = false;
-	do {
-		sort_or_not = true;
-		for (int i = left; i <= right; i++) {
-			if (array[i - 1] > array[i]) {
-				swap(array, i - 1, i);
-				swap_count++;
-				sort_or_not = false;
-			}
-		}
-		right--;
-		for (int i = right; i >= left; i--) {
-			if (array[i] < array[i - 1]) {
-				swap(array, i, i - 1);
-				swap_count++;
-				sort_or_not = false;
-			}
-		}
-		left++;
-	} while (sort_or_not == false);
-
-	printf("Количество перестановок: %d\n", swap_count);
-
-	return array;
+void count_swaps(void (*swap_function)(int *i, int *j), int *a, int *b, int *count) {
+	swap_function(a, b);
 }
 
 int main(void) {
+	//int swap_counts[4] = { 0, 0, 0, 0 };
+	//void (*ptr_swap2)(int* i, int* j) = swap2;
+	//f1(ptr_swap2);
+	//ptr_swap2(&a[0], &a[1]);
+	//swap2(&a[0], &a[1]);
+
+	//return EXIT_SUCCESS;
+
 	puts("Программа демонстрации алгоритмов сортировки");
 	puts("--------------------------------------------");
 
@@ -109,6 +85,28 @@ int main(void) {
 
 	printf("Отсортированный массив: ");
 	print_array(src3, array_size);
+
+	puts("--------------------------------------------");
+
+	printf("--= Сортировка слиянием =--\n");
+	int src4[array_size];
+	memcpy(src4, src, array_size * sizeof(int));
+	merge_sort(src4, array_size);
+
+	printf("Отсортированный массив: ");
+	print_array(src4, array_size);
+
+	puts("--------------------------------------------");
+
+	printf("--= Сортировка вставками =--\n");
+	int src5[array_size];
+	memcpy(src5, src, array_size * sizeof(int));
+	insert_sort(src5, array_size);
+
+	printf("Отсортированный массив: ");
+	print_array(src5, array_size);
+
+	puts("--------------------------------------------");
 
 	printf("Статистика:\n");
 	printf("...\n");
