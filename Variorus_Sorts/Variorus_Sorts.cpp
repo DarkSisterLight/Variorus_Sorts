@@ -64,6 +64,65 @@ setlocale(LC_ALL, "RU");
 			swap(array[i], array[min_elem]);
 		}
 		break;
+	case 4:
+		puts("Выбрана Isertion Sort");
+		for (int i = 1; i < arr_size; i++) {
+			for (int j = i; j > 0 && array[j - 1] > array[j]; j--) {
+				swap(array[j - 1], array[j]);
+			}
+		}
+		break;
+	case 5:
+		puts("Выбрана Merge Sort");
+		int mid = arr_size / 2; // находим середину сортируемой последовательности
+		if (arr_size % 2 == 1)
+			mid++;
+		int h = 1; // шаг
+		// выделяем память под формируемую последовательность
+		int* c = (int*)malloc(arr_size * sizeof(int));
+		int step;
+		while (h < arr_size)
+		{
+			step = h;
+			int i = 0;   // индекс первого пути
+			int j = mid; // индекс второго пути
+			int k = 0;   // индекс элемента в результирующей последовательности
+			while (step <= mid)
+			{
+				while ((i < step) && (j < arr_size) && (j < (mid + step)))
+				{ // пока не дошли до конца пути
+				  // заполняем следующий элемент формируемой последовательности
+				  // меньшим из двух просматриваемых
+					if (array[i] < array[j])
+					{
+						c[k] = array[i];
+						i++; k++;
+					}
+					else {
+						c[k] = array[j];
+						j++; k++;
+					}
+				}
+				while (i < step)
+				{ // переписываем оставшиеся элементы первого пути (если второй кончился раньше)
+					c[k] = array[i];
+					i++; k++;
+				}
+				while ((j < (mid + step)) && (j < arr_size))
+				{  // переписываем оставшиеся элементы второго пути (если первый кончился раньше)
+					c[k] = array[j];
+					j++; k++;
+				}
+				step = step + h; // переходим к следующему этапу
+			}
+			h = h * 2;
+			// Переносим упорядоченную последовательность (промежуточный вариант) в исходный массив
+			for (i = 0; i < arr_size; i++)
+				array[i] = c[i];
+		}
+		break;
+	case 6:
+		break;
 	default:
 		puts("У меня такой сортировки нет.");
 		break;
