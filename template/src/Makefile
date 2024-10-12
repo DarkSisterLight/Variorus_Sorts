@@ -99,7 +99,8 @@ CONFIG_CLEAN_FILES =
 CONFIG_CLEAN_VPATH_FILES =
 am__installdirs = "$(DESTDIR)$(bindir)"
 PROGRAMS = $(bin_PROGRAMS)
-am_sortdemo_OBJECTS = sortdemo.$(OBJEXT)
+am_sortdemo_OBJECTS = bubble_sort.$(OBJEXT) sortdemo.$(OBJEXT) \
+	utils.$(OBJEXT) quick_sort.$(OBJEXT) shaker_sort.$(OBJEXT)
 sortdemo_OBJECTS = $(am_sortdemo_OBJECTS)
 sortdemo_LDADD = $(LDADD)
 AM_V_P = $(am__v_P_$(V))
@@ -117,7 +118,9 @@ am__v_at_1 =
 DEFAULT_INCLUDES = -I. -I$(top_builddir)
 depcomp = $(SHELL) $(top_srcdir)/depcomp
 am__maybe_remake_depfiles = depfiles
-am__depfiles_remade = ./$(DEPDIR)/sortdemo.Po
+am__depfiles_remade = ./$(DEPDIR)/bubble_sort.Po \
+	./$(DEPDIR)/quick_sort.Po ./$(DEPDIR)/shaker_sort.Po \
+	./$(DEPDIR)/sortdemo.Po ./$(DEPDIR)/utils.Po
 am__mv = mv -f
 COMPILE = $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
 	$(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
@@ -166,9 +169,7 @@ AUTOMAKE = ${SHELL} '/home/denis/Variorus_Sorts/template/missing' automake-1.16
 AWK = gawk
 CC = gcc
 CCDEPMODE = depmode=gcc3
-
-# what flags you want to pass to the C compiler & linker
-CFLAGS = --pedantic -Wall -std=c99 -O2
+CFLAGS = -g3
 CPPFLAGS = 
 CSCOPE = cscope
 CTAGS = ctags
@@ -247,7 +248,7 @@ target_alias =
 top_build_prefix = ../
 top_builddir = ..
 top_srcdir = ..
-sortdemo_SOURCES = sortdemo.c
+sortdemo_SOURCES = bubble_sort.c sortdemo.c utils.c quick_sort.c shaker_sort.c
 all: all-am
 
 .SUFFIXES:
@@ -261,9 +262,9 @@ $(srcdir)/Makefile.in:  $(srcdir)/Makefile.am  $(am__configure_deps)
 	      exit 1;; \
 	  esac; \
 	done; \
-	echo ' cd $(top_srcdir) && $(AUTOMAKE) --gnu src/Makefile'; \
+	echo ' cd $(top_srcdir) && $(AUTOMAKE) --foreign src/Makefile'; \
 	$(am__cd) $(top_srcdir) && \
-	  $(AUTOMAKE) --gnu src/Makefile
+	  $(AUTOMAKE) --foreign src/Makefile
 Makefile: $(srcdir)/Makefile.in $(top_builddir)/config.status
 	@case '$?' in \
 	  *config.status*) \
@@ -334,7 +335,11 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
+include ./$(DEPDIR)/bubble_sort.Po # am--include-marker
+include ./$(DEPDIR)/quick_sort.Po # am--include-marker
+include ./$(DEPDIR)/shaker_sort.Po # am--include-marker
 include ./$(DEPDIR)/sortdemo.Po # am--include-marker
+include ./$(DEPDIR)/utils.Po # am--include-marker
 
 $(am__depfiles_remade):
 	@$(MKDIR_P) $(@D)
@@ -482,7 +487,11 @@ clean: clean-am
 clean-am: clean-binPROGRAMS clean-generic mostlyclean-am
 
 distclean: distclean-am
-		-rm -f ./$(DEPDIR)/sortdemo.Po
+		-rm -f ./$(DEPDIR)/bubble_sort.Po
+	-rm -f ./$(DEPDIR)/quick_sort.Po
+	-rm -f ./$(DEPDIR)/shaker_sort.Po
+	-rm -f ./$(DEPDIR)/sortdemo.Po
+	-rm -f ./$(DEPDIR)/utils.Po
 	-rm -f Makefile
 distclean-am: clean-am distclean-compile distclean-generic \
 	distclean-tags
@@ -528,7 +537,11 @@ install-ps-am:
 installcheck-am:
 
 maintainer-clean: maintainer-clean-am
-		-rm -f ./$(DEPDIR)/sortdemo.Po
+		-rm -f ./$(DEPDIR)/bubble_sort.Po
+	-rm -f ./$(DEPDIR)/quick_sort.Po
+	-rm -f ./$(DEPDIR)/shaker_sort.Po
+	-rm -f ./$(DEPDIR)/sortdemo.Po
+	-rm -f ./$(DEPDIR)/utils.Po
 	-rm -f Makefile
 maintainer-clean-am: distclean-am maintainer-clean-generic
 

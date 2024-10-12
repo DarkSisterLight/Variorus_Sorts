@@ -1,31 +1,12 @@
-#include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
 
-/**
-    Сортировка пузырьком.
-
-    \param[out] dest отсортированный массив
-    \param[in] array исходный массив
-    \param[in] size размер массива
-*/
-int* bubble_sort(int* array, int size) {
-	int swap_count = 0;
-	for (int i = 0; i < size; i++) {
-		for (int j = 0; j < size; j++) {
-			if (array[j] > array[j + 1]) {
-				int t = array[j];
-				array[j] = array[j + 1];
-				array[j + 1] = t;
-				swap_count++;
-			}
-		}
-	}
-	printf("Количество перестановок: %d\n", swap_count);
-	return array;
-}
+#include "bubble_sort.h"
+#include "quick_sort.h"
+#include "shaker_sort.h"
+#include "utils.h"
 
 /**
     Сортировка вставками.
@@ -34,7 +15,7 @@ int* bubble_sort(int* array, int size) {
     \param[in] array исходный массив
     \param[in] size размер массива
 */
-int* insert_sort(int* src) {
+int* insert_sort(int* src, int size) {
     return 0;
 }
 
@@ -45,83 +26,25 @@ int* insert_sort(int* src) {
     \param[in] array исходный массив
     \param[in] size размер массива
 */
-int* merge_sort(int* src) {
+int* merge_sort(int *src, int size) {
     return 0;
 }
 
-/**
-    Быстрая сортировка.
-
-    \param[out] dest отсортированный массив
-    \param[in] array исходный массив
-    \param[in] size размер массива
-*/
-int* quick_sort(int* src) {
-    return 0;
-}
-
-void swap(int* array, int i, int j) {
-	int t = array[j];
-	array[j] = array[j + 1];
-	array[j + 1] = t;
-}
-
-/**
-    Сортировка слиянием.
-
-    \param[out] dest отсортированный массив
-    \param[in] array исходный массив
-    \param[in] size размер массива
-*/
-int* shaker_sort(int* array, int size) {
-	int sort_or_not = 1;
-	int right = size, left = 1;
-	int swap_count = 0;
-	do {
-		sort_or_not = 1;
-		for (int i = left; i <= right; i++) {
-			if (array[i - 1] > array[i]) {
-				swap(array, i - 1, i);
-				swap_count++;
-				sort_or_not = 0;
-			}
-		}
-		right--;
-		for (int i = right; i >= left; i--) {
-			if (array[i] < array[i - 1]) {
-				swap(array, i, i - 1);
-				swap_count++;
-				sort_or_not = false;
-			}
-		}
-		left++;
-	} while (sort_or_not == false);
-
-	printf("Количество перестановок: %d\n", swap_count);
-
-	return array;
-}
-
-int* random_array(int* array, int size, int num) {
-	for (int i = 0; i < size; i++) {
-		array[i] = rand() % num;
-	}
-	return array;
-}
-
-void print_array(int* array, int size) {
-	printf("[");
-	for (int i = 0; i < size; i++) {
-		printf("%d", array[i]);
-		if (i < size - 1) {
-			printf(",");
-		}
-	}
-	printf("]\n");
+void count_swaps(void (*swap_function)(int *i, int *j), int *a, int *b, int *count) {
+	swap_function(a, b);
 }
 
 int main(void) {
+	//int swap_counts[4] = { 0, 0, 0, 0 };
+	//void (*ptr_swap2)(int* i, int* j) = swap2;
+	//f1(ptr_swap2);
+	//ptr_swap2(&a[0], &a[1]);
+	//swap2(&a[0], &a[1]);
+
+	//return EXIT_SUCCESS;
+
 	puts("Программа демонстрации алгоритмов сортировки");
+	puts("--------------------------------------------");
 
 	srand(time(NULL));
 
@@ -133,8 +56,9 @@ int main(void) {
 
 	printf("Исходный массив: ");
 	print_array(src, array_size);
+	puts("--------------------------------------------");
 
-	printf("Сортировка пузырьком: \n");
+	printf("--= Сортировка пузырьком =--\n");
 	int src1[array_size];
 	memcpy(src1, src, array_size * sizeof(int));
 	bubble_sort(src1, array_size);
@@ -142,13 +66,47 @@ int main(void) {
 	printf("Отсортированный массив: ");
 	print_array(src1, array_size);
 
-	printf("Шейкерная сортировка: \n");
+	puts("--------------------------------------------");
+
+	printf("--= Шейкерная сортировка =--\n");
 	int src2[array_size];
 	memcpy(src2, src, array_size * sizeof(int));
 	shaker_sort(src2, array_size);
 
 	printf("Отсортированный массив: ");
 	print_array(src2, array_size);
+
+	puts("--------------------------------------------");
+
+	printf("--= Быстрая сортировка =--\n");
+	int src3[array_size];
+	memcpy(src3, src, array_size * sizeof(int));
+	quick_sort(src3, array_size);
+
+	printf("Отсортированный массив: ");
+	print_array(src3, array_size);
+
+	puts("--------------------------------------------");
+
+	printf("--= Сортировка слиянием =--\n");
+	int src4[array_size];
+	memcpy(src4, src, array_size * sizeof(int));
+	merge_sort(src4, array_size);
+
+	printf("Отсортированный массив: ");
+	print_array(src4, array_size);
+
+	puts("--------------------------------------------");
+
+	printf("--= Сортировка вставками =--\n");
+	int src5[array_size];
+	memcpy(src5, src, array_size * sizeof(int));
+	insert_sort(src5, array_size);
+
+	printf("Отсортированный массив: ");
+	print_array(src5, array_size);
+
+	puts("--------------------------------------------");
 
 	printf("Статистика:\n");
 	printf("...\n");
