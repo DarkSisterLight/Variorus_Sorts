@@ -2,20 +2,22 @@
 #include <stdio.h>
 using namespace std;
 
-const int arr_size = 6;
+int* random_array(int* array, int arr_size, int num);
+void print_array(int* array, int arr_size);
+
+const int arr_size = 10;
 
 int main(){
 setlocale(LC_ALL, "RU");
 
 	short x;
 	bool sort_or_not = true;
-	int array[arr_size] = {}, right = arr_size, left = 1, min_elem;
+	int array[arr_size] = {}, right = arr_size, left = 1, min_elem, random_radix = 100;
 
-	puts("Заполни массив:");
-	for (int i = 0; i < arr_size; i++) {
-		cout << "[" << i + 1 << "]" << ": ";
-		cin >> array[i];
-	}
+	random_array(array, arr_size, random_radix);
+	puts("Исходный массив: ");
+	print_array(array, arr_size);
+	puts("--------------------------------------------");
 
 	puts("Выбери сортировку: ");
 	cin >> x;
@@ -35,7 +37,7 @@ setlocale(LC_ALL, "RU");
 		puts("Выбрана Sheyker Sort");
 		do {
 			sort_or_not = true;
-			for (int i = left; i <= right; i++) {
+			for (int i = left; i < right; i++) {
 				if (array[i - 1] > array[i]) {
 				swap(array[i - 1], array[i]);
 				sort_or_not = false;
@@ -72,57 +74,58 @@ setlocale(LC_ALL, "RU");
 			}
 		}
 		break;
-	case 5:
-		puts("Выбрана Merge Sort");
-		int mid = arr_size / 2; // находим середину сортируемой последовательности
-		if (arr_size % 2 == 1)
-			mid++;
-		int h = 1; // шаг
-		// выделяем память под формируемую последовательность
-		int* c = (int*)malloc(arr_size * sizeof(int));
-		int step;
-		while (h < arr_size)
-		{
-			step = h;
-			int i = 0;   // индекс первого пути
-			int j = mid; // индекс второго пути
-			int k = 0;   // индекс элемента в результирующей последовательности
-			while (step <= mid)
-			{
-				while ((i < step) && (j < arr_size) && (j < (mid + step)))
-				{ // пока не дошли до конца пути
-				  // заполняем следующий элемент формируемой последовательности
-				  // меньшим из двух просматриваемых
-					if (array[i] < array[j])
-					{
-						c[k] = array[i];
-						i++; k++;
-					}
-					else {
-						c[k] = array[j];
-						j++; k++;
-					}
-				}
-				while (i < step)
-				{ // переписываем оставшиеся элементы первого пути (если второй кончился раньше)
-					c[k] = array[i];
-					i++; k++;
-				}
-				while ((j < (mid + step)) && (j < arr_size))
-				{  // переписываем оставшиеся элементы второго пути (если первый кончился раньше)
-					c[k] = array[j];
-					j++; k++;
-				}
-				step = step + h; // переходим к следующему этапу
-			}
-			h = h * 2;
-			// Переносим упорядоченную последовательность (промежуточный вариант) в исходный массив
-			for (i = 0; i < arr_size; i++)
-				array[i] = c[i];
-		}
-		break;
-	case 6:
-		break;
+	//case 5:
+	//{
+	//	puts("Выбрана Merge Sort");
+	//	int mid = arr_size / 2; // находим середину сортируемой последовательности
+	//	if (arr_size % 2 == 1) {
+	//		mid++;
+	//	}
+	//	int h = 1; // шаг
+	//	// выделяем память под формируемую последовательность
+	//	int* c = (int*)malloc(arr_size * sizeof(int));
+	//	int step;
+	//	while (h < arr_size)
+	//	{
+	//		step = h;
+	//		int i = 0;   // индекс первого пути
+	//		int j = mid; // индекс второго пути
+	//		int k = 0;   // индекс элемента в результирующей последовательности
+	//		while (step <= mid)
+	//		{
+	//			while ((i < step) && (j < arr_size) && (j < (mid + step)))
+	//			{ // пока не дошли до конца пути
+	//			  // заполняем следующий элемент формируемой последовательности
+	//			  // меньшим из двух просматриваемых
+	//				if (array[i] < array[j])
+	//				{
+	//					c[k] = array[i];
+	//					i++; k++;
+	//				}
+	//				else {
+	//					c[k] = array[j];
+	//					j++; k++;
+	//				}
+	//			}
+	//			while (i < step)
+	//			{ // переписываем оставшиеся элементы первого пути (если второй кончился раньше)
+	//				c[k] = array[i];
+	//				i++; k++;
+	//			}
+	//			while ((j < (mid + step)) && (j < arr_size))
+	//			{  // переписываем оставшиеся элементы второго пути (если первый кончился раньше)
+	//				c[k] = array[j];
+	//				j++; k++;
+	//			}
+	//			step = step + h; // переходим к следующему этапу
+	//		}
+	//		h = h * 2;
+	//		// Переносим упорядоченную последовательность (промежуточный вариант) в исходный массив
+	//		for (i = 0; i < arr_size; i++)
+	//			array[i] = c[i];
+	//	}
+	//}
+	//	break; 
 	default:
 		puts("У меня такой сортировки нет.");
 		break;
@@ -134,4 +137,22 @@ setlocale(LC_ALL, "RU");
 	cout << endl;
 
 	return 0;
+}
+
+int* random_array(int* array, int arr_size, int num) {
+	for (int i = 0; i < arr_size; i++) {
+		array[i] = rand() % num;
+	}
+	return array;
+}
+
+void print_array(int* array, int arr_size) {
+	printf("[");
+	for (int i = 0; i < arr_size; i++) {
+		printf("%d", array[i]);
+		if (i < arr_size - 1) {
+			printf(",");
+		}
+	}
+	printf("]\n");
 }
